@@ -1,0 +1,108 @@
+{
+  "version": 2,
+  "projects": {
+    "pokedex": {
+      "root": "apps/pokedex",
+      "sourceRoot": "apps/pokedex/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "command": "node ../../node_modules/react-app-rewired/bin/index.js build",
+            "cwd": "apps/pokedex",
+            "outputPath": "dist/apps/pokedex"
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/react-app-rewired/bin/index.js start",
+            "cwd": "apps/pokedex"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts",
+            "cwd": "apps/pokedex"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "node ../../node_modules/react-app-rewired/bin/index.js test --watchAll=false",
+            "cwd": "apps/pokedex"
+          }
+        }
+      }
+    },
+    "pokedex-e2e": {
+      "root": "apps/pokedex-e2e",
+      "sourceRoot": "apps/pokedex-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx e2e-serve pokedex-e2e",
+              "nx e2e-run pokedex-e2e"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/pokedex-e2e/**/*.{js,ts}"
+            ]
+          }
+        },
+        "e2e-run": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/pokedex-e2e/cypress.json",
+            "tsConfig": "apps/pokedex-e2e/tsconfig.e2e.json",
+            "baseUrl": "http://localhost:3000"
+          }
+        },
+        "e2e-serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx serve pokedex"
+            ],
+            "readyWhen": "can now view"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "pokedex"
+}
